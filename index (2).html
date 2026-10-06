@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ironclaw – Caring for Your Flock, One Day at a Time</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--g:#0f4d3a;--g2:#1b6b52;--o:#e8923a;--bg:#f2f7f4;--card:#fff;--tx:#1d2b25;--mut:#5d7068;--bd:#d5e3dc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1914;--card:#15261f;--tx:#e6f0eb;--mut:#9ab3a8;--bd:#274237}}
+:root[data-theme="dark"]{--bg:#0d1914;--card:#15261f;--tx:#e6f0eb;--mut:#9ab3a8;--bd:#274237}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+header{background:var(--g);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header h1{font:700 22px Georgia,serif;color:var(--o);margin:0}
+header small{display:block;color:#cfe5db;font-size:11px}
+header button{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;padding:0 6px}
+main{flex:1;padding:14px 14px 80px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 6px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;color:var(--tx)}
+.tile span{display:block;font-size:26px;margin-bottom:4px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.hero{background:var(--g);color:#fff;border-radius:14px;padding:16px;margin-bottom:14px}
+.hero p{margin:4px 0 0;font-size:13px;color:#cfe5db}
+.badges{display:flex;gap:8px;margin-top:10px;font-size:11px}.badges b{background:#ffffff1f;padding:4px 8px;border-radius:20px;font-weight:600}
+h2{font-size:18px;margin:0 0 12px;color:var(--g2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) h2{color:var(--o)}}
+:root[data-theme="dark"] h2{color:var(--o)}
+label{display:block;font-size:12px;color:var(--mut);margin:8px 0 3px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.btn{background:var(--o);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;margin-top:10px}
+.btn.sm{padding:5px 9px;font-size:12px;margin:0 0 0 6px}.btn.alt{background:var(--g2)}.btn.del{background:#b94a48}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row .info{flex:1;font-size:13px}.row .info b{font-size:14px}.mut{color:var(--mut);font-size:12px}
+.done{opacity:.55;text-decoration:line-through}
+.back{background:none;border:0;color:var(--g2);font-weight:700;cursor:pointer;padding:0 0 10px;font-size:14px}
+.warn{background:#fff3e3;border-left:4px solid var(--o);color:#6b3d08;padding:8px 10px;border-radius:6px;margin:6px 0;font-size:13px}
+.ok{background:#e4f5ec;border-left:4px solid #2e9e6b;color:#14543a;padding:8px 10px;border-radius:6px;margin:6px 0;font-size:13px}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--g);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;border:0;color:#cfe5db;padding:12px;font-weight:600;cursor:pointer;font-size:13px}
+nav button.on{color:#fff;border-top:3px solid var(--o)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal div{padding:8px 0;border-radius:8px;font-size:13px;cursor:pointer;position:relative}
+.cal .h{font-size:11px;color:var(--mut);cursor:default}
+.cal .ev{background:#e8923a33;font-weight:700}.cal .sel{outline:2px solid var(--g2)}.cal .today{background:var(--g);color:#fff}
+.cal .ev:after{content:"";position:absolute;bottom:3px;left:50%;width:5px;height:5px;margin-left:-2px;background:var(--o);border-radius:50%}
+#splash{position:fixed;inset:0;background:var(--g);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;transition:opacity .6s;text-align:center;padding:20px}
+#splash h1{font:700 48px Georgia,serif;color:var(--o);margin:8px 0}#splash p{color:#cfe5db;margin:0}
+</style>
+</head>
+<body>
+<div id="splash"><div style="font-size:64px">🐔</div><h1>Ironclaw</h1><p>Caring for Your Flock, One Day at a Time</p></div>
+<div id="app">
+<header><div style="font-size:30px">🐔</div><div style="flex:1"><h1>Ironclaw</h1><small>Caring for Your Flock, One Day at a Time</small></div><button id="th" title="Toggle theme">🌓</button></header>
+<main id="main"></main>
+<nav><button id="n-home" class="on">🏠 Dashboard</button><button id="n-cal">📅 Calendar</button></nav>
+</div>
+<script>
+const $=s=>document.querySelector(s), main=$('#main'), mem={};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const db={get(k){if(mem[k])return mem[k];try{return JSON.parse(localStorage.getItem('ic_'+k))||[]}catch(e){return[]}},
+ set(k,v){mem[k]=v;try{localStorage.setItem('ic_'+k,JSON.stringify(v))}catch(e){}}};
+const today=()=>new Date().toISOString().slice(0,10);
+
+const F=(n,l,t='text',o)=>({n,l,t,o});
+const MODS=[
+ {id:'disease',ic:'🩺',name:'Disease Check & Medicine Guide',type:'guide',data:[
+  ['Newcastle Disease','Gasping, twisted neck, green diarrhea, sudden deaths','No cure; vaccinate, isolate, cull per vet advice'],
+  ['Coccidiosis','Bloody droppings, ruffled feathers, weakness','Anticoccidials (e.g. amprolium) per label/vet'],
+  ['Infectious Bronchitis','Coughing, sneezing, drop in egg quality','Supportive care, vaccination, warmth'],
+  ['Fowl Pox','Scabby lesions on comb/wattles, mouth lesions','Supportive care; vaccinate; control mosquitoes'],
+  ['Marek\'s Disease','Paralysis of legs/wings, grey eyes','No treatment; vaccinate chicks at day 1'],
+  ['Avian Influenza','High sudden mortality, swollen head, purple comb','Notify veterinary authorities immediately']],note:'General guidance only — always consult a veterinarian for diagnosis and dosage.'},
+ {id:'vitamins',ic:'💊',name:'Vitamins & Minerals',type:'guide',data:[
+  ['Vitamin A','Vision, immunity, skin','Green feed, yellow corn, supplement in water'],
+  ['Vitamin D3','Calcium absorption, strong shells','Sunlight, premix; avoid overdose'],
+  ['Vitamin E + Selenium','Fertility, muscle health','Premix or wheat germ'],
+  ['B-Complex','Growth, nerves, feathering','Brewer\'s yeast, premix'],
+  ['Calcium','Eggshell and bone strength','Oyster shell or limestone for layers'],
+  ['Electrolytes','Heat stress recovery','Add to drinking water in hot weather']],note:'Follow the product label for dosage and frequency.'},
+ {id:'vacc',ic:'💉',name:'Vaccination Schedule',type:'crud',done:true,date:'date',title:'vaccine',fields:[F('flock','Flock'),F('vaccine','Vaccine (e.g. Newcastle Booster)'),F('date','Date','date'),F('time','Time','time')]},
+ {id:'supp',ic:'🧪',name:'Vitamins & Supplements',type:'crud',date:'date',title:'name',fields:[F('name','Supplement'),F('dosage','Dosage'),F('schedule','Schedule (e.g. daily AM)'),F('date','Start date','date')]},
+ {id:'activity',ic:'📋',name:'Flock Activity Log',type:'crud',date:'date',title:'note',fields:[F('date','Date','date'),F('flock','Flock'),F('note','Notes & observations','textarea')]},
+ {id:'health',ic:'📈',name:'Health Reports',type:'health'},
+ {id:'breeder',ic:'🔔',name:'Breeder Reminders',type:'crud',done:true,date:'date',title:'task',fields:[F('task','Task / event'),F('date','Date','date'),F('time','Time','time'),F('desc','Custom alert note')]},
+ {id:'flock',ic:'🐓',name:'My Flock Records',type:'crud',title:'name',fields:[F('name','Flock / bird name'),F('breed','Breed'),F('count','Count','number'),F('notes','Notes / breeding history','textarea')]},
+ {id:'feed',ic:'🌾',name:'Feed Calculator',type:'feed'},
+ {id:'env',ic:'🌡️',name:'Environmental Alerts',type:'env'},
+ {id:'prod',ic:'🥚',name:'Production Stats',type:'prod'},
+ {id:'bio',ic:'🛡️',name:'Biosecurity Protocol',type:'bio'}
+];
+const BIO=['Footbath at every coop entrance, changed daily','Quarantine new birds for 2–4 weeks','Limit and log visitors; provide clean boots','Clean and disinfect feeders and waterers weekly','Remove dead birds promptly and dispose safely','Control rodents, wild birds and insects','Keep a vaccination schedule and follow it','Deep-clean coop between batches'];
+
+function list(id){return db.get(id)}
+function card(m){return `<div class="tile" data-open="${m.id}"><span>${m.ic}</span>${m.name}</div>`}
+
+function home(){
+ main.innerHTML=`<div class="hero"><b style="font-size:16px">Welcome back 👋</b><p>An offline app to track vaccines, schedule reminders and manage your flock's health — even without internet.</p><div class="badges"><b>📴 Works Offline</b><b>🔒 Private</b><b>✅ Simple</b></div></div>
+ ${upcoming()}<div class="grid">${MODS.map(card).join('')}</div>`;
+}
+function upcoming(){
+ const t=today(),ev=[...list('vacc').filter(x=>!x.done).map(x=>({...x,k:'💉 '+x.vaccine})),...list('breeder').filter(x=>!x.done).map(x=>({...x,k:'🔔 '+x.task}))]
+  .filter(x=>x.date&&x.date>=t).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);
+ return `<div class="card"><b>Upcoming</b>${ev.length?ev.map(e=>`<div class="mut">${esc(e.date)} ${esc(e.time||'')} — ${esc(e.k)}</div>`).join(''):'<div class="mut">Nothing scheduled. Add a vaccine or reminder.</div>'}</div>`;
+}
+function shell(m,body){main.innerHTML=`<button class="back" data-home>← Back</button><h2>${m.ic} ${m.name}</h2>${body}`}
+
+function openMod(id){
+ const m=MODS.find(x=>x.id===id);
+ if(m.type==='guide'){
+  shell(m,`<input id="q" placeholder="Search…"><div id="gl"></div><div class="warn">${m.note}</div>`);
+  const draw=()=>{const q=$('#q').value.toLowerCase();$('#gl').innerHTML=m.data.filter(r=>r.join(' ').toLowerCase().includes(q)).map(r=>`<div class="card"><b>${r[0]}</b><div class="mut">${r[1]}</div><div style="font-size:13px;margin-top:4px">${r[2]}</div></div>`).join('')};
+  $('#q').oninput=draw;draw();
+ }else if(m.type==='crud')crud(m);
+ else if(m.type==='feed')feed(m);
+ else if(m.type==='env')env(m);
+ else if(m.type==='prod')prod(m);
+ else if(m.type==='health')health(m);
+ else if(m.type==='bio')bio(m);
+}
+
+function crud(m){
+ const form=m.fields.map(f=>`<label>${f.l}</label>${f.t==='textarea'?`<textarea name="${f.n}" rows="2"></textarea>`:`<input name="${f.n}" type="${f.t}" ${f.t==='date'?`value="${today()}"`:''}>`}`).join('');
+ shell(m,`<div class="card"><div id="fm">${form}</div><button class="btn" id="add">Add</button></div><div id="ls"></div>`);
+ const draw=()=>{const items=list(m.id).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('#ls').innerHTML=items.length?items.map(i=>`<div class="card row"><div class="info ${i.done?'done':''}"><b>${esc(i[m.title]||'(untitled)')}</b><div class="mut">${m.fields.filter(f=>f.n!==m.title&&i[f.n]).map(f=>esc(i[f.n])).join(' · ')}</div></div>${m.done?`<button class="btn sm alt" data-tg="${i.id}">${i.done?'Undo':'Done'}</button>`:''}<button class="btn sm del" data-del="${i.id}">✕</button></div>`).join(''):'<div class="mut">No records yet.</div>'};
+ $('#add').onclick=()=>{const o={id:Date.now()};let any=false;document.querySelectorAll('#fm [name]').forEach(e=>{o[e.name]=e.value;if(e.value&&e.type!=='date')any=true});
+  if(!any)return;const a=list(m.id);a.push(o);db.set(m.id,a);openMod(m.id)};
+ main.onclick=e=>{const t=e.target,a=list(m.id);
+  if(t.dataset.del){db.set(m.id,a.filter(x=>x.id!=t.dataset.del));draw()}
+  if(t.dataset.tg){const i=a.find(x=>x.id==t.dataset.tg);i.done=!i.done;db.set(m.id,a);draw()}
+  if(t.dataset.home!==undefined)nav('home')};
+ draw();
+}
+
+function feed(m){
+ const R={'Starter chick (0–8 wks)':40,'Grower (8–18 wks)':85,'Layer':115,'Broiler finisher':150};
+ shell(m,`<div class="card"><label>Number of birds</label><input id="n" type="number" value="50"><label>Bird type</label><select id="t">${Object.keys(R).map(k=>`<option>${k}</option>`).join('')}</select><label>Feed price per kg</label><input id="p" type="number" value="30"><div id="out"></div></div><div class="mut">Estimates in grams per bird per day; adjust for breed and weather.</div>`);
+ const calc=()=>{const n=+$('#n').value||0,g=R[$('#t').value],p=+$('#p').value||0,d=n*g/1000;
+  $('#out').innerHTML=`<div class="ok"><b>${d.toFixed(2)} kg/day</b> · ${(d*7).toFixed(1)} kg/week · ${(d*30).toFixed(0)} kg/month<br>Estimated cost: <b>${(d*p).toFixed(2)}/day</b> · ${(d*p*30).toFixed(0)}/month</div>`};
+ ['n','t','p'].forEach(i=>$('#'+i).oninput=calc);calc();
+}
+
+function env(m){
+ shell(m,`<div class="card"><label>Temperature (°C)</label><input id="tp" type="number" value="28"><label>Humidity (%)</label><input id="hm" type="number" value="60"><button class="btn" id="chk">Check & save reading</button><div id="out"></div></div><div id="ls"></div>`);
+ const analyse=(t,h)=>{const r=[];
+  t>=35?r.push(['w','Severe heat stress: give shade, cool water, electrolytes, increase ventilation.']):t>=32?r.push(['w','Heat stress risk: provide shade and fresh cool water.']):t<15?r.push(['w','Too cold: check drafts and add warmth for young birds.']):0;
+  h>75?r.push(['w','High humidity: improve ventilation, keep litter dry (disease risk).']):h<40?r.push(['w','Low humidity: dust and respiratory irritation risk.']):0;
+  return r.length?r:[['o','All conditions are within a comfortable range.']]};
+ const draw=()=>{$('#ls').innerHTML=list('envlog').slice(-8).reverse().map(x=>`<div class="card mut">${esc(x.date)} — ${x.t}°C, ${x.h}% ${x.bad?'⚠️':'✅'}</div>`).join('')};
+ $('#chk').onclick=()=>{const t=+$('#tp').value,h=+$('#hm').value,r=analyse(t,h);
+  $('#out').innerHTML=r.map(x=>`<div class="${x[0]==='w'?'warn':'ok'}">${x[1]}</div>`).join('');
+  const a=list('envlog');a.push({date:today(),t,h,bad:r[0][0]==='w'});db.set('envlog',a);draw()};
+ draw();
+}
+
+function prod(m){
+ shell(m,`<div class="card"><label>Flock</label><input id="f"><label>Date</label><input id="d" type="date" value="${today()}"><label>Eggs</label><input id="e" type="number"><label>Avg weight (g)</label><input id="w" type="number"><button class="btn" id="add">Save</button></div><div id="st"></div><div id="ls"></div>`);
+ const draw=()=>{const a=list('prod'),tot=a.reduce((s,x)=>s+(+x.e||0),0),max=Math.max(1,...a.slice(-7).map(x=>+x.e||0));
+  $('#st').innerHTML=`<div class="card"><b>Total eggs: ${tot}</b> · Avg/entry: ${a.length?(tot/a.length).toFixed(1):0}<div style="display:flex;align-items:flex-end;gap:4px;height:60px;margin-top:8px">${a.slice(-7).map(x=>`<div style="flex:1;background:var(--o);border-radius:4px 4px 0 0;height:${(+x.e||0)/max*100}%" title="${x.e}"></div>`).join('')}</div></div>`;
+  $('#ls').innerHTML=a.slice().reverse().map(x=>`<div class="card row"><div class="info"><b>${esc(x.f||'Flock')}</b> — ${esc(x.e||0)} eggs<div class="mut">${esc(x.d)} · ${esc(x.w||'–')} g</div></div><button class="btn sm del" data-del="${x.id}">✕</button></div>`).join('')};
+ $('#add').onclick=()=>{const a=list('prod');a.push({id:Date.now(),f:$('#f').value,d:$('#d').value,e:$('#e').value,w:$('#w').value});db.set('prod',a);draw()};
+ main.onclick=e=>{if(e.target.dataset.del){db.set('prod',list('prod').filter(x=>x.id!=e.target.dataset.del));draw()}if(e.target.dataset.home!==undefined)nav('home')};
+ draw();
+}
+
+function health(m){
+ const hs=list('healthrec'),eg=list('prod').reduce((s,x)=>s+(+x.e||0),0),birds=list('flock').reduce((s,x)=>s+(+x.count||0),0),v=list('vacc');
+ shell(m,`<div class="card"><label>Flock</label><input id="f"><label>Symptom</label><input id="s"><label>Treatment</label><input id="t"><button class="btn" id="add">Add health record</button></div>
+ <div class="card"><b>Summary</b><div class="mut">Birds registered: ${birds}<br>Health records: ${hs.length}<br>Vaccinations done: ${v.filter(x=>x.done).length}/${v.length}<br>Total eggs logged: ${eg}</div><button class="btn alt" id="ex">Export JSON backup</button></div>
+ ${hs.slice().reverse().map(x=>`<div class="card row"><div class="info"><b>${esc(x.s)}</b><div class="mut">${esc(x.f)} · ${esc(x.t)} · ${esc(x.d)}</div></div><button class="btn sm del" data-del="${x.id}">✕</button></div>`).join('')}`);
+ $('#add').onclick=()=>{if(!$('#s').value)return;const a=list('healthrec');a.push({id:Date.now(),f:$('#f').value,s:$('#s').value,t:$('#t').value,d:today()});db.set('healthrec',a);openMod('health')};
+ $('#ex').onclick=()=>{const o={};MODS.forEach(x=>o[x.id]=list(x.id));o.healthrec=hs;o.prod=list('prod');const b=new Blob([JSON.stringify(o,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ironclaw-backup.json';a.click()};
+ main.onclick=e=>{if(e.target.dataset.del){db.set('healthrec',hs.filter(x=>x.id!=e.target.dataset.del));openMod('health')}if(e.target.dataset.home!==undefined)nav('home')};
+}
+
+function bio(m){
+ const c=db.get('bio');const chk=Array.isArray(c)?c:[];
+ shell(m,`<div id="bl"></div><div class="mut">Tick items as you complete them.</div>`);
+ const draw=()=>{$('#bl').innerHTML=BIO.map((t,i)=>`<label class="card row" style="margin:0 0 8px;color:var(--tx);font-size:14px"><span class="${chk.includes(i)?'done':''}">${t}</span><input type="checkbox" style="width:auto" data-b="${i}" ${chk.includes(i)?'checked':''}></label>`).join('')};
+ main.onclick=e=>{if(e.target.dataset.b!==undefined){const i=+e.target.dataset.b,k=chk.indexOf(i);k<0?chk.push(i):chk.splice(k,1);db.set('bio',chk);draw()}if(e.target.dataset.home!==undefined)nav('home')};
+ draw();
+}
+
+let cy=new Date().getFullYear(),cm=new Date().getMonth(),sel=today();
+function calendar(){
+ const ev={};[...list('vacc').map(x=>({...x,k:'💉 '+x.vaccine})),...list('breeder').map(x=>({...x,k:'🔔 '+x.task}))].forEach(x=>{if(x.date)(ev[x.date]=ev[x.date]||[]).push(x)});
+ const first=new Date(cy,cm,1).getDay(),days=new Date(cy,cm+1,0).getDate(),t=today();
+ let cells=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="h">${d}</div>`).join('')+'<div></div>'.repeat(first);
+ for(let d=1;d<=days;d++){const ds=`${cy}-${String(cm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  cells+=`<div data-day="${ds}" class="${ev[ds]?'ev ':''}${ds===t?'today ':''}${ds===sel?'sel':''}">${d}</div>`}
+ const items=ev[sel]||[];
+ main.innerHTML=`<h2>📅 Calendar</h2><div class="card"><div class="row" style="margin-bottom:8px"><button class="btn sm alt" id="pv">‹</button><b>${new Date(cy,cm).toLocaleString('default',{month:'long'})} ${cy}</b><button class="btn sm alt" id="nx">›</button></div><div class="cal">${cells}</div></div>
+ <div class="card"><b>${sel}</b>${items.length?items.map(i=>`<div class="row" style="margin-top:6px"><span class="${i.done?'done':''}">${esc(i.time||'')} ${esc(i.k)}</span><span class="mut">${i.done?'Done':'Pending'}</span></div>`).join(''):'<div class="mut">No events. Add vaccines or reminders from the dashboard.</div>'}</div>`;
+ $('#pv').onclick=()=>{cm--;if(cm<0){cm=11;cy--}calendar()};
+ $('#nx').onclick=()=>{cm++;if(cm>11){cm=0;cy++}calendar()};
+ main.onclick=e=>{if(e.target.dataset.day){sel=e.target.dataset.day;calendar()}};
+}
+
+function nav(w){
+ $('#n-home').classList.toggle('on',w!=='cal');$('#n-cal').classList.toggle('on',w==='cal');
+ main.onclick=null;
+ if(w==='cal')calendar();else{home();main.onclick=e=>{const t=e.target.closest('[data-open]');if(t)openMod(t.dataset.open)}}
+ window.scrollTo(0,0);
+}
+$('#n-home').onclick=()=>nav('home');$('#n-cal').onclick=()=>nav('cal');
+$('#th').onclick=()=>{const r=document.documentElement,dark=getComputedStyle(r).getPropertyValue('--bg').trim()==='#0d1914';r.dataset.theme=dark?'light':'dark'};
+nav('home');
+setTimeout(()=>{const s=$('#splash');s.style.opacity=0;setTimeout(()=>s.remove(),600)},1200);
+</script>
+</body>
+</html>
